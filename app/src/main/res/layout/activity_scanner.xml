@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="scannerViewModel"
+            type="com.app.linkscanner.scanner.ScannerViewModel" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="84dp"
+                tools:context=".scanner.ScannerActivity">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cv_basic_details"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_half_vertical_height"
+                    android:visibility="@{scannerViewModel.basicDetails.domain != null ? View.VISIBLE : View.GONE}"
+                    app:cardCornerRadius="@dimen/cardview_corner_radius">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="@dimen/activity_vertical_height">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/basic_details"
+                            android:textColor="@color/colorSecondaryAccent"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/activity_half_vertical_height"
+                            android:text="@string/domain" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="2"
+                            android:text="@{scannerViewModel.basicDetails.domain}"
+                            android:textColor="@color/textPrimary"
+                            tools:text="helloworld.com" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/activity_half_vertical_height"
+                            android:text="@string/IP_Address" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="2"
+                            android:text="@{scannerViewModel.basicDetails.ip}"
+                            android:textColor="@color/textPrimary"
+                            tools:text="127.0.0.1" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/activity_half_vertical_height"
+                            android:text="@string/server_location" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="2"
+                            android:text="@{scannerViewModel.countryName}"
+                            android:textColor="@color/textPrimary"
+                            tools:text="United States" />
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cv_scan_results"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_half_vertical_height"
+                    android:visibility="@{scannerViewModel.basicDetails.domain != null ? View.VISIBLE : View.GONE}"
+                    app:cardCornerRadius="@dimen/cardview_corner_radius">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="@dimen/activity_vertical_height">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/scan_results"
+                            android:textColor="@color/colorSecondaryAccent"
+                            android:textStyle="bold" />
+
+                        <GridLayout
+                            android:id="@+id/scan_results_grid"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/activity_vertical_height"
+                            android:columnCount="2">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_row="0"
+                                android:layout_column="0"
+                                android:layout_gravity="center"
+                                android:text="@string/engine"
+                                android:textColor="@color/textPrimary"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_row="0"
+                                android:layout_column="1"
+                                android:layout_gravity="center"
+                                android:text="@string/result"
+                                android:textColor="@color/textPrimary"
+                                android:textStyle="bold" />
+
+                        </GridLayout>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/fab_continue_to_site"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center"
+            android:layout_marginBottom="@dimen/activity_vertical_height"
+            android:backgroundTint="@color/colorAccent"
+            android:text="@string/continue_to_site"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:visibility="gone"
+            android:onClick="openLinkInBrowser"
+            app:icon="@drawable/ic_open_in_browser"
+            app:iconTint="@android:color/white" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

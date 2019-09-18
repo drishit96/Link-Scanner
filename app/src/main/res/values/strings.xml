@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Link Scanner</string>
+
+    <!--ScannerActivity-->
+    <string name="basic_details">BASIC DETAILS</string>
+    <string name="domain">Domain</string>
+    <string name="IP_Address">IP Address</string>
+    <string name="server_location">Server Location</string>
+
+    <string name="scan_results">SCAN RESULTS</string>
+    <string name="engine">Engine</string>
+    <string name="result">Result</string>
+    <string name="urlscanio">urlscan.io</string>
+    <string name="malicious">Malicious</string>
+    <string name="safe">Safe</string>
+
+    <string name="continue_to_site">Continue to site</string>
+</resources>
