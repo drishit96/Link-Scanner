@@ -11,6 +11,6 @@ Thanks for taking the time to contribute to this repository. Here's the steps yo
 
 ## Logging Issues
 
-All issues should be created using the [new GitHub Issue form](https://github.com/drishit96/Link-Scanner/issues/new?assignees=&labels=&template=ISSUE_TEMPLATE.md&title=).
+All issues should be created using the [new GitHub Issue form](https://github.com/drishit96/Link-Scanner/issues/new?assignees=&labels=&template=issue_template.md&title=).
 Clearly describe the issue including steps to reproduce if there are any.
 Also, make sure to indicate the earliest version that has the issue being reported.
