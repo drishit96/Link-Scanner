@@ -4,6 +4,9 @@
 
 Scans URLs against blacklists to find out its safety
 
+## Contributing
+Please read [CONTRIBUTING.md](https://github.com/drishit96/Link-Scanner/blob/master/CONTRIBUTING.md) for details on the process for submitting pull requests and issues.
+
 ## Versioning
 
 We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/drishit96/Link-Scanner/tags). 
