@@ -1,3 +1,11 @@
+---
+name: ISSUE_TEMPLATE
+about: This template guides the users on how to raise an issue.
+title: ''
+labels: ''
+assignees: ''
+---
+
 - Provide a general summary of the issue in the Title above
 
 ## Description
