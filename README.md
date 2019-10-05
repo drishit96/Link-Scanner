@@ -1,6 +1,6 @@
 # Link Scanner
 
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) [![Gitter](https://badges.gitter.im/Link-Scanner/community.svg)](https://gitter.im/Link-Scanner/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://github.com/drishit96/Link-Scanner/blob/master/LICENSE) [![Gitter](https://badges.gitter.im/Link-Scanner/community.svg)](https://gitter.im/Link-Scanner/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Scans URLs against blacklists to find out its safety.
 This project is still in development. Feel free to report bugs, suggestions and feature requests.
