@@ -55,7 +55,7 @@ class ScannerActivity : AppCompatActivity() {
 
         scannerViewModel.basicDetailsFetched.observe(this, Observer { event ->
             event.getContentIfNotHandled()?.let {basicDetailsFetched ->
-                if (basicDetailsFetched) scannerViewModel.getAutomaticSourceScan(scannerViewModel.domain.value!!)
+                if (basicDetailsFetched) scannerViewModel.getAutomaticSourceScan(scannerViewModel.domain.value ?: "")
                 binding.fabContinueToSite.show()
             }
         })

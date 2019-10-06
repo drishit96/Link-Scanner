@@ -102,53 +102,64 @@ class ScannerViewModel : ViewModel() {
     }
 
     fun getManualOrAPIScan(domain: String) {
-        Log.d("SCAN_INIT", "called")
         doAsync {
             val searchResponse = LinkScannerAPI.searchService.getSearchResults(
                 "domain:$domain",
                 1
             ).execute()
-            if (searchResponse.body()!!.results.isNotEmpty() && searchResponse.body()!!.results[0].page.domain == domain) {
-                uiThread {
-                    _basicDetails.value = searchResponse.body()!!.results[0].page
-                    _basicDetailsFetched.value = Event(true)
-                }
 
-                if (!enginesScanned.containsKey(URL_SCAN_IO)) {
-                    val uuid = searchResponse.body()!!.results[0]._id
-                    val scanResponse = LinkScannerAPI.scanService.getScanResult(uuid).execute()
+            if (searchResponse.isSuccessful) {
+                val searchResults = searchResponse.body()?.results
+                if (searchResults != null && searchResults.isNotEmpty() && searchResults[0].page.domain == domain) {
                     uiThread {
-                        val urlScan = scanResponse.body()!!.verdicts.urlscan
-                        val urlScanVerdict = EngineVerdict(
-                            null,
-                            URL_SCAN_IO,
-                            urlScan.malicious,
-                            urlScan.score,
-                            urlScan.categories,
-                            null
-                        )
-                        _engineVerdict.value = Event(urlScanVerdict)
-                        enginesScanned[URL_SCAN_IO] = urlScanVerdict
+                        _basicDetails.value = searchResults[0].page
+                        _basicDetailsFetched.value = Event(true)
+                    }
 
-                        if (_gsbVerdict.value == null &&
-                            scanResponse.body()!!.verdicts.engines.enginesTotal > 0 &&
-                            !enginesScanned.containsKey(GOOGLE_SAFE_BROWSING)
-                        ) {
-                            val gsbVerdict =
-                                scanResponse.body()!!.verdicts.engines.verdicts.firstOrNull { verdict -> verdict.engine == GOOGLE_SAFE_BROWSING }
-                            _gsbVerdict.value = Event(gsbVerdict)
-                            enginesScanned[GOOGLE_SAFE_BROWSING] = gsbVerdict
-                        } else {
-                            _gsbVerdict.value = Event(enginesScanned[GOOGLE_SAFE_BROWSING])
+                    if (!enginesScanned.containsKey(URL_SCAN_IO)) {
+                        val uuid = searchResults[0]._id
+                        val scanResponse = LinkScannerAPI.scanService.getScanResult(uuid).execute()
+
+                        if (scanResponse.isSuccessful) {
+                            val scanResult = scanResponse.body()
+                            if (scanResult != null) {
+                                uiThread {
+                                    val urlScan = scanResult.verdicts.urlscan
+                                    val urlScanVerdict = EngineVerdict(
+                                        null,
+                                        URL_SCAN_IO,
+                                        urlScan.malicious,
+                                        urlScan.score,
+                                        urlScan.categories,
+                                        null
+                                    )
+                                    _engineVerdict.value = Event(urlScanVerdict)
+                                    enginesScanned[URL_SCAN_IO] = urlScanVerdict
+
+                                    if (_gsbVerdict.value == null &&
+                                        scanResult.verdicts.engines.enginesTotal > 0 &&
+                                        !enginesScanned.containsKey(GOOGLE_SAFE_BROWSING)
+                                    ) {
+                                        val gsbVerdict =
+                                            scanResult.verdicts.engines.verdicts.firstOrNull { verdict -> verdict.engine == GOOGLE_SAFE_BROWSING }
+                                        _gsbVerdict.value = Event(gsbVerdict)
+                                        enginesScanned[GOOGLE_SAFE_BROWSING] = gsbVerdict
+                                    } else {
+                                        _gsbVerdict.value = Event(enginesScanned[GOOGLE_SAFE_BROWSING])
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        uiThread {
+                            _engineVerdict.value = Event(enginesScanned[URL_SCAN_IO])
                         }
                     }
                 } else {
-                    uiThread {
-                        _engineVerdict.value = Event(enginesScanned.get(URL_SCAN_IO))
-                    }
+                    uiThread { _basicDetailsFetched.value = Event(false) }
                 }
             } else {
-                _basicDetailsFetched.value = Event(false)
+                uiThread { _basicDetailsFetched.value = Event(false) }
             }
         }
     }
@@ -162,27 +173,39 @@ class ScannerViewModel : ViewModel() {
                         "domain:$domain AND task.source:$source",
                         1
                     ).execute()
-                    if (searchResponse.body()!!.results.isNotEmpty() &&
-                        searchResponse.body()!!.results[0].page.domain == domain
-                    ) {
-                        val uuid = searchResponse.body()!!.results[0]._id
-                        val scanResponse = LinkScannerAPI.scanService.getScanResult(uuid).execute()
-                        uiThread {
-                            val sourceVerdict =
-                                scanResponse.body()!!.verdicts.engines.verdicts.first { verdict -> verdict.engine == source }
-                            _engineVerdict.value = Event(sourceVerdict)
-                            enginesScanned[source] = sourceVerdict
 
-                            if (_gsbVerdict.value == null &&
-                                scanResponse.body()!!.verdicts.engines.enginesTotal > 1 &&
-                                !enginesScanned.containsKey(GOOGLE_SAFE_BROWSING)
+                    if (searchResponse.isSuccessful) {
+                        val searchResult = searchResponse.body()
+                        if (searchResult != null) {
+                            if (searchResult.results.isNotEmpty() &&
+                                searchResult.results[0].page.domain == domain
                             ) {
-                                val gsbVerdict =
-                                    scanResponse.body()!!.verdicts.engines.verdicts.firstOrNull { verdict -> verdict.engine == GOOGLE_SAFE_BROWSING }
-                                _gsbVerdict.value = Event(gsbVerdict)
-                                enginesScanned[GOOGLE_SAFE_BROWSING] = gsbVerdict
-                            } else {
-                                _gsbVerdict.value = Event(enginesScanned[GOOGLE_SAFE_BROWSING])
+                                val uuid = searchResult.results[0]._id
+                                val scanResponse = LinkScannerAPI.scanService.getScanResult(uuid).execute()
+
+                                if (scanResponse.isSuccessful) {
+                                    val scanResult = scanResponse.body()
+                                    if (scanResult != null) {
+                                        uiThread {
+                                            val sourceVerdict =
+                                                scanResult.verdicts.engines.verdicts.firstOrNull { verdict -> verdict.engine == source }
+                                            _engineVerdict.value = Event(sourceVerdict)
+                                            enginesScanned[source] = sourceVerdict
+
+                                            if (_gsbVerdict.value == null &&
+                                                scanResult.verdicts.engines.enginesTotal > 1 &&
+                                                !enginesScanned.containsKey(GOOGLE_SAFE_BROWSING)
+                                            ) {
+                                                val gsbVerdict =
+                                                    scanResult.verdicts.engines.verdicts.firstOrNull { verdict -> verdict.engine == GOOGLE_SAFE_BROWSING }
+                                                _gsbVerdict.value = Event(gsbVerdict)
+                                                enginesScanned[GOOGLE_SAFE_BROWSING] = gsbVerdict
+                                            } else {
+                                                _gsbVerdict.value = Event(enginesScanned[GOOGLE_SAFE_BROWSING])
+                                            }
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
