@@ -16,6 +16,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <ProgressBar
+            android:id="@+id/scanning_in_progress"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleX="0.125"
+            android:scaleY="0.125"/>
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -55,6 +62,7 @@
                             android:text="@string/domain" />
 
                         <TextView
+                            android:id="@+id/tv_domain"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
@@ -70,6 +78,7 @@
                             android:text="@string/IP_Address" />
 
                         <TextView
+                            android:id="@+id/tv_ip_address"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
