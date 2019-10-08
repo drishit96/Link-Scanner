@@ -1,6 +1,6 @@
 # Link Scanner
 
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://github.com/drishit96/Link-Scanner/blob/master/LICENSE) [![Gitter](https://badges.gitter.im/Link-Scanner/community.svg)](https://gitter.im/Link-Scanner/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://github.com/drishit96/Link-Scanner/blob/master/LICENSE) [![Build Status](https://app.bitrise.io/app/06e24a86f579b368/status.svg?token=an8FLxm_hJqPqVGfTqIS7w&branch=master)](https://app.bitrise.io/app/06e24a86f579b368) [![Gitter](https://badges.gitter.im/Link-Scanner/community.svg)](https://gitter.im/Link-Scanner/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Scans URLs against blacklists to find out its safety.
 This project is still in development. Feel free to report bugs, suggestions and feature requests.
